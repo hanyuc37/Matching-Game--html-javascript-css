@@ -1,0 +1,76 @@
+#rightSide {
+    left:500px;
+    border-left: 5px dotted darkred;
+    background-color:cornsilk;
+}
+#leftSide {
+    background-color: thistle;
+}
+.game-area {
+    position: absolute;
+    width:600px;
+    height:600px;
+}
+header{
+    text-align: center;
+    background-image: url("https://a4.pbase.com/o9/24/77824/1/159063754.nJraQ4cA.HogwartsChristmas.jpg");
+    background-color: lightblue;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    font-size:xx-large;
+    color:whitesmoke;
+}
+h2 {
+    font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    color:whitesmoke;
+    background-color:darkgoldenrod;
+    text-align: center;
+    font-size: xx-large;
+    font-variant-position: super;
+    
+}
+p {
+    text-align: center;
+    color:darkred;
+    border:2px dashed darkred;
+    border-radius:10px;
+    font-family: 'Courier New', Courier, monospace;
+    background-color:blanchedalmond;
+}
+.level-selection {
+    display : "none";
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%); /*CSS rule sets a transformation 
+    to move an element by 50% of its own width 
+    and height in the horizontal and vertical direction, respectively. */
+    background-image: url("https://a4.pbase.com/o9/24/77824/1/159063754.nJraQ4cA.HogwartsChristmas.jpg");
+    background-position:center;
+    background-size: 100% auto;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 9999;  /* stack order */
+}
+h3{
+    font-size: smaller;
+    font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color:whitesmoke;
+    border:3px outset whitesmoke;
+    border-radius:25px;
+}
+.gameover-selection {
+    display:"none";
+    position: fixed;
+    top:50%;
+    left:50%;
+    transform: translate(-50%, -50%);
+    background-color:peachpuff;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    z-index: 9998;  
+}
