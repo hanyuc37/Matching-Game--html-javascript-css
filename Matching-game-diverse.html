@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic Matching</title>
+    <link rel="icon"  href="https://www.nicepng.com/png/detail/786-7869442_icon-sticker-9-3-4-harry-potter.png" type="image/png">
+    <style>
+        #rightSide {
+            left:500px;
+            border-left: 5px dotted darkred;
+            background-color:cornsilk;
+        }
+        #leftSide {
+            background-color: thistle;
+        }
+        .game-area {
+            position: absolute;
+            width:600px;
+            height:600px;
+        }
+        header{
+            text-align: center;
+            background-image: url("https://a4.pbase.com/o9/24/77824/1/159063754.nJraQ4cA.HogwartsChristmas.jpg");
+            background-color: lightblue;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: 100% auto;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-size:xx-large;
+            color:whitesmoke;
+        }
+        h2 {
+            font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+            color:whitesmoke;
+            background-color:darkgoldenrod;
+            text-align: center;
+            font-size: xx-large;
+            font-variant-position: super;
+            
+        }
+        p {
+            text-align: center;
+            color:darkred;
+            border:2px dashed darkred;
+            border-radius:10px;
+            font-family: 'Courier New', Courier, monospace;
+            background-color:blanchedalmond;
+        }
+        .level-selection {
+            display : "none";
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%); /*CSS rule sets a transformation 
+            to move an element by 50% of its own width 
+            and height in the horizontal and vertical direction, respectively. */
+            background-image: url("https://a4.pbase.com/o9/24/77824/1/159063754.nJraQ4cA.HogwartsChristmas.jpg");
+            background-position:center;
+            background-size: 100% auto;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 9999;  /* stack order */
+        }
+        h3{
+            font-size: smaller;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            color:whitesmoke;
+            border:3px outset whitesmoke;
+            border-radius:25px;
+        }
+        .gameover-selection {
+            display:"none";
+            position: fixed;
+            top:50%;
+            left:50%;
+            transform: translate(-50%, -50%);
+            background-color:peachpuff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 9998;  
+        }
+
+
+    </style>
+</head>
+<header>
+    <img src = "https://logos-world.net/wp-content/uploads/2020/04/Harry-Potter-Logo.png" alt = "logo" height="200" width = auto>
+    <div class = "level-selection">
+        <h3>Choose the game level</h3>
+        <div class = "level-buttons">
+            <button style = "background-color: lightblue;" class = "level-button" data-number = "5">Easy</button>
+            <button style = "background-color: darkorange;" class = "level-button" data-number = "10">Medium</button>
+            <button style = "background-color: darkred;" class = "level-button" data-number = "15">Hard</button>
+        </div>
+    </div>
+
+</header>
+<body>
+    <audio src = "/videos/Harry Potter Theme Song.mp3" autoplay loop></audio>
+    <audio id = 'success-sound' src = '/videos/wang-sound.mp3' preload = "auto"></audio>
+    <audio id = 'eat-slugs' src = '/videos/Ron WeasleyEat Slugs.mp3' preload = "auto"></audio>
+    <h2><img src = "images/luna.png" height = "100px" width = "auto" alt = "luna"> Matching Game
+        <img src = "images/Harry.png" height = "100px", width = "auto" alt = "harry">
+    </h2>
+
+    <div class = "game-area" id = "leftSide"></div>
+    <div class = "game-area" id = "rightSide"></div>
+
+    <!-- GameOver button-->
+    <div class = "gameover-selection" style = "display:none">
+        <h3 id = 'gameover-text' style = "color:teal; font-size:xx-large"><img src = "images/gameover.png" alt = "Ron eating" height = "100px", width="auto">Game over!</h3>
+        <div class = "gameOverButtons">
+            <button style = "background-color:lightblue;" class = "gameOverButton" data-option = "restart">Restart</button>
+            <button style  = "background-color: lightcoral;" class = "gameOverButton" data-option = "cancel">Cancel</button>
+        </div>
+    </div>
+
+    <script>
+        // Icons of the game
+        const imageOptions = ['images/chamber.png','images/dobby.png',
+        'images/glasses.png','images/hat.png','images/hogwarts.png',
+        'images/map.png','images/nimbus.png','images/tree.png',
+        'images/owl.png','images/voldemort.png','images/quidditch.png'];
+        const magicSound = ['videos/Lumos.mp3','videos/wang-sound.mp3',
+        'videos/wandsound2.mp3','videos/wand-3.mp3']
+        let numAttempt = 0;
+        const theLeftSide = document.getElementById('leftSide');
+        const theRightSide = document.getElementById('rightSide');
+        //Level Selection
+        const levelSelection = document.querySelector('.level-selection');
+        const levelButtons = document.querySelectorAll('.level-button');
+        //Game Over
+        const gameOverSelection = document.querySelector('.gameover-selection');
+        const gameOverButtons  = document.querySelectorAll('.gameOverButtons');
+
+        // Pick the level to start game
+        //Show the level option box
+        levelSelection.style.display = 'block';
+        // Add event listener to buttons
+        levelButtons.forEach(button=>{
+            button.addEventListener('click',buttonHandle);
+        })
+
+
+        function buttonHandle(event){
+            event.stopPropagation();
+            const number = event.target.dataset.number;
+            levelButtons.forEach(button => {
+            button.removeEventListener('click', buttonHandle);
+            });
+            levelSelection.style.display = 'none';
+            generateGame(number);   
+        }
+        
+
+        function generateGame(number){
+            let numofFace = Number(number);
+            for(let face = 0; face < numofFace; face++){
+                //randomize img options
+                let face = document.createElement('img');
+                let imgRandomIdx = Math.floor(Math.random()*imageOptions.length);
+                face.src = imageOptions[imgRandomIdx];
+                //resize the image
+                face.style.width = "auto";
+                face.style.height = "150px";
+                //randomize the postion of each face
+                let positionTop = Math.floor(Math.random()*350)+1;
+                let positionLeft = Math.floor(Math.random()*320)+1;
+                face.style.top = positionTop +'px';
+                face.style.left = positionLeft +'px';
+                face.style.position ="absolute"; //overlap is allowed
+                //Append face
+                theLeftSide.appendChild(face);
+            }
+            //Rightside
+            //clone from the leftside but delete the last child
+            const leftcopy = theLeftSide.cloneNode(true);
+            leftcopy.removeChild(leftcopy.lastChild);
+            theRightSide.appendChild(leftcopy);
+            theRightSide.style.backgroundColor = "cornsilk";
+
+            //Add Click function
+            //if click the right one, level up!
+            theLeftSide.lastChild.addEventListener('click', event =>{
+                nextLevel(event,numofFace)
+            });
+            //if Click the wrong place, game over! (exclude when click on checking the difficulty level)
+            document.addEventListener('click',gameOver);
+        }
+        
+        //level up
+        function nextLevel(event,numofFace){
+            event.stopPropagation();/*ensure that the event does not 
+            get applied to other elements in the webpage, such as other faces*/
+
+            //success sound!
+            const successSound = document.getElementById('success-sound');
+            successSound.play();
+            //face doubled
+            numofFace=numofFace*2;
+            //clean the page to start a new round
+            while (theLeftSide.firstChild){
+                theLeftSide.removeChild(theLeftSide.firstChild);
+            }
+            while (theRightSide.firstChild){
+                theRightSide.removeChild(theRightSide.firstChild);
+            }
+            //Next Round
+            numAttempt+=1;
+            generateGame(numofFace);
+        }
+
+        //GameOver Button 
+        function gameOver() {
+            document.removeEventListener('click', gameOver);
+            theLeftSide.lastChild.removeEventListener('click', nextLevel);
+            gameOverSelection.style.display = "block";
+            const ronVoice = document.getElementById('eat-slugs');
+            ronVoice.play();
+            gameOverButtons.forEach(button => {
+                button.addEventListener('click', gameOverHandle);
+                const attempts = document.getElementById('gameover-text');
+                attempts.textContent('You made total of '+ numAttempt +' s!');
+            });
+        }
+
+        function gameOverHandle(event) {
+            const option = event.target.dataset.option;
+            gameOverOption(option);
+        }
+        function gameOverOption(option){
+            if (option === "cancel") {
+                window.close();
+            }
+            else if (option === "restart") {
+                location.reload();
+            }
+        }
+
+    </script>
+    
+</body>
+</html>
