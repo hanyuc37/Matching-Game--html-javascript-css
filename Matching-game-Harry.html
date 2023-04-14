@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magic Matching</title>
+    <link rel="icon"  href="https://www.nicepng.com/png/detail/786-7869442_icon-sticker-9-3-4-harry-potter.png" type="image/png">
+</head>
+<header>
+    <link rel = "stylesheet" href ="CSS/Matching-game-Harry.css" />
+    <img src = "https://logos-world.net/wp-content/uploads/2020/04/Harry-Potter-Logo.png" alt = "logo" height="200" width = auto>
+    <div class = "level-selection">
+        <h3>Choose the game level</h3>
+        <div class = "level-buttons">
+            <button style = "background-color: lightblue;" class = "level-button" data-number = "5">Easy</button>
+            <button style = "background-color: darkorange;" class = "level-button" data-number = "10">Medium</button>
+            <button style = "background-color: darkred;" class = "level-button" data-number = "15">Hard</button>
+        </div>
+    </div>
+
+</header>
+<body>
+    <audio src = "/videos/Harry Potter Theme Song.mp3" autoplay loop></audio>
+    <audio id = 'success-sound' src = '/videos/wang-sound.mp3' preload = "auto"></audio>
+    <audio id = 'eat-slugs' src = '/videos/Ron WeasleyEat Slugs.mp3' preload = "auto"></audio>
+    <script src = "js/Matching-game-Harry.js"></script>
+    <h2><img src = "images/luna.png" height = "100px" width = "auto" alt = "luna"> Matching Game
+        <img src = "images/Harry.png" height = "100px", width = "auto" alt = "harry">
+    </h2>
+
+    <div class = "game-area" id = "leftSide"></div>
+    <div class = "game-area" id = "rightSide"></div>
+
+    <!-- GameOver button-->
+    <div class = "gameover-selection" style = "display:none">
+        <h3 id = 'gameover-text' style = "color:teal; font-size:xx-large"><img src = "images/gameover.png" alt = "Ron eating" height = "100px", width="auto">Game over!</h3>
+        <div class = "gameOverButtons">
+            <button style = "background-color:lightblue;" class = "gameOverButton" data-option = "restart">Restart</button>
+            <button style  = "background-color: lightcoral;" class = "gameOverButton" data-option = "cancel">Cancel</button>
+        </div>
+    </div>
